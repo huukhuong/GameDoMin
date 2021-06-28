@@ -11,7 +11,7 @@ import java.util.Random;
 public class GameBoard extends JFrame {
 
     private final int MAX = 17;
-    private final int MINES_COUNT = 35;
+    private final int MINES_COUNT = 40;
 
     public GameBoard() {
         try {
@@ -127,6 +127,7 @@ public class GameBoard extends JFrame {
         con.add(pnMain);
 
         pack();
+
     }
 
     private void buttonClick(int i, int j) {
@@ -151,20 +152,17 @@ public class GameBoard extends JFrame {
     private final ImageIcon FLAG = new ImageIcon("img/mines_flag.png");
     private final ImageIcon DEFAULT = new ImageIcon("");
 
-    private int oldValue;
-
     private void check(int i, int j, boolean isRightClick) {
         int value = matrix[i][j];
 
         if (isRightClick) {
-            oldValue = value;
-            matrix[i][j] = 5;
+            opened[i][j] = 5;
             minesMatrix[i][j].setIcon(FLAG);
             return;
         }
 
-        if (value == 5) {
-            matrix[i][j] = oldValue;
+        if (opened[i][j] == 5) {
+            opened[i][j] = 0;
             minesMatrix[i][j].setIcon(DEFAULT);
             return;
         }
@@ -216,6 +214,25 @@ public class GameBoard extends JFrame {
                         }
                     }
                 }
+            }
+        }
+
+        int count = 0;
+        for (int t = 0; t < MAX; t++) {
+            for (int k = 0; k < MAX; k++) {
+                if (opened[t][k] == 1)
+                    count++;
+            }
+        }
+        System.out.println(count);
+        if (count == 249) {
+            int x = JOptionPane.showConfirmDialog(null,
+                    "Bạn đã thắng! Chơi lại?",
+                    "Game over",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (x == JOptionPane.OK_OPTION) {
+                new GameBoard();
+                this.dispose();
             }
         }
     }
