@@ -12,6 +12,7 @@ public class GameBoard extends JFrame {
 
     private final int MAX = 17;
     private final int MINES_COUNT = 40;
+    private final int EMTY = (int) (Math.pow(MAX, 2) - MINES_COUNT);
 
     public GameBoard() {
         try {
@@ -26,6 +27,8 @@ public class GameBoard extends JFrame {
         initMines();
         addControls();
         showWindow();
+        // hack
+//        showAllMines();
     }
 
     private int matrix[][];
@@ -224,8 +227,7 @@ public class GameBoard extends JFrame {
                     count++;
             }
         }
-        System.out.println(count);
-        if (count == 249) {
+        if (count == EMTY) {
             int x = JOptionPane.showConfirmDialog(null,
                     "Bạn đã thắng! Chơi lại?",
                     "Game over",
